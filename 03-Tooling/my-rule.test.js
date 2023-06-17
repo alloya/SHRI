@@ -14,14 +14,53 @@ ruleTester.run('sort-imports', SortImports, {
         import fs from 'fs';
       `
     },
+
+    // {
+    //   code: `
+    //     import { ClientBus, subscribe } from "@yandex-nirvana/bus";
+
+    //     import { call } from "typed-redux-saga";
+
+    //     import {selectDeliveryDate} from '../../selectors';
+
+    //     import {calcDeliveryDate} from './helpers';
+    //   `,
+    // }
   ],
   invalid: [
+//     {
+//       code: 
+// `
+// import fs from 'fs';
+// import path from 'path';
+
+// import _ from 'lodash';
+// `,
+//       output: 
+// `
+// import fs from 'fs';
+// import _ from 'lodash';
+// import path from 'path';
+// `,
+//       errors:[{message: "Sort imports"},{message: "extraNewlines"}]
+//     },
     {
-      code: `
-        import path from 'path';
-        import fs from 'fs';
-      `,
-      errors
+      code: 
+`
+import fs from 'fs';
+const dynamic = import("my-dynamic-import");
+import _ from 'lodash';
+import path from 'path';
+`,
+      output: 
+`
+import fs from 'fs';
+import _ from 'lodash';
+import path from 'path';
+
+const dynamic = import("my-dynamic-import");
+`,
+      errors: [{message: "Sort imports"}, {message: 'missing separator'}]
     }
   ]
 })

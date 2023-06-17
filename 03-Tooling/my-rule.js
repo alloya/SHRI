@@ -8,34 +8,30 @@ module.exports = {
     },
     fixable: 'code', // Or `code` or `whitespace`
     schema: [], // Add a schema if the rule has options,
-    messages: ['custom rule sort-imports']
+    messages: ['Sort imports']
   },
 
 
   create(context) {
-    const sourceCode = context.getSourceCode()
+    const sourceCode = context.getSourceCode();
+    const text = sourceCode.getText();
 
     function sortImports(imports) {
-      const temp = [...imports]
-      temp.sort((a, b) => a.source.value.localeCompare(b.source.value))
-      return temp
+      const result = [...imports];
+
+      result.sort((a, b) => getImportPriority(a) - getImportPriority(b) ||
+        a.source.value.localeCompare(b.source.value));
+      return result;
     }
 
     function findUnsorted(nodes, sorted) {
-      //console.log('findUnsorted nodes', nodes)
-      //console.log('findUnsorted sorted', sorted)
       const node = nodes.find((node, i) => node !== sorted[i]);
-      //console.log("CHECKKKKK", nodes[2]===sorted[2])
-      //console.log('findUnsorted node', node);
       return node;
     }
 
     function getUnsorted(current, sorted) {
       const sortingMap = current.map((val, i) => [val, sorted[i]])
-      // console.log("SORTING MAP", sortingMap[0])
-
       const unsortedNodes = sortingMap.filter((x) => x[0] !== x[1])
-      //console.log("UNSORTED NODES", unsortedNodes[0])
       return unsortedNodes
     }
 
@@ -47,45 +43,97 @@ module.exports = {
       if (includeComments && source.getCommentsBefore(node)[0]) {
         console.log('COMMENTS', source.getCommentsBefore(node)[0])
       }
-      console.log("NODE RANGE", getTextRange(
-        (includeComments && source.getCommentsBefore(node)[0]) || node,
-        node
-      ))
-      return getTextRange(
+      const range = getTextRange(
         (includeComments && source.getCommentsBefore(node)[0]) || node,
         node
       )
+      return range
     }
 
     function getNodeText(source, node, includeComments = true) {
-      console.log("NODE TEXT", source.getText().slice(...getNodeRange(source, node, includeComments)))
-      return source.getText().slice(...getNodeRange(source, node, includeComments))
+      const text = source.getText().slice(...getNodeRange(source, node, includeComments))
+      return text
     }
+
+    function getImportPriority(node) {
+      const value = node.source.value;
+      if (value.startsWith('@')) {
+        return 1
+      }
+      if (value.startsWith('../')) {
+        return 3
+      }
+      if (value.startsWith('.')) {
+        return 4
+      }
+      else {
+        return 2
+      }
+    }
+
+
     return {
       Program(program) {
         const nodes = program.body.filter(el => el.type == 'ImportDeclaration');
+        let dynamicImports = program.body.filter(el => el.type == 'VariableDeclaration')
+        console.log('dynamicImports', program.body)
+        dynamicImports = dynamicImports.filter(el => el.declarations.some(decl => decl.init?.type === 'ImportExpression'));
+        console.log(dynamicImports)
         if (nodes.length <= 1) return;
         const sortedImports = sortImports(nodes)
-console.log(sortedImports.map(el => el.source.value))
         const firstUnsortedNode = findUnsorted(nodes, sortedImports)
-        //console.log("UNSORTED NODE",firstUnsortedNode)
         if (firstUnsortedNode) {
-          let i = 0;
           const isFirstNode = (node) => node === nodes[0]
           context.report({
             node: firstUnsortedNode,
-            message: 'custom rule sort-imports',
-            *fix(fixer) {
+            message: 'Sort imports',
+            fix(fixer) {
+              const temp = [];
               for (const [node, replacement] of getUnsorted(nodes, sortedImports)) {
-                console.log('IIIIIIIIIIIIIIIIIIII', i)
-                i++
-                yield fixer.replaceTextRange(
-                  getNodeRange(sourceCode, node, !isFirstNode(node)),
-                  getNodeText(sourceCode, replacement, !isFirstNode(replacement))
+                const range = getNodeRange(sourceCode, node, !isFirstNode(node))
+                const text = getNodeText(sourceCode, replacement, !isFirstNode(replacement))
+                temp.push(
+                  fixer.replaceTextRange(range, text)
                 )
               }
+              return temp
             }
           });
+        }
+        for (let i = 1; i < nodes.length; i++) {
+          const node = nodes[i]
+          const prevNode = nodes[i - 1]
+
+          const nodeOrComment = sourceCode.getCommentsBefore(node)[0] ?? node
+          const rangeBetween = [
+            prevNode.range[1],
+            nodeOrComment.range[0],
+          ];
+          const actualSeparator = text
+            .slice(...rangeBetween)
+            .replace(/[^\n]/g, "") 
+            .replace("\n", "") 
+          const isSameGroup = getImportPriority(sortedImports[i-1]) === getImportPriority(sortedImports[i])
+          if (isSameGroup) {
+            if (actualSeparator !== "") {
+              context.report({
+                message: "extraNewlines",
+                loc: {},
+                fix: (fixer) => fixer.replaceTextRange(rangeBetween, "\n"),
+              })
+            }
+          }
+          else {
+            if (actualSeparator !== "\n") {
+              console.log('actualSeparator', encodeURI(actualSeparator))
+              console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
+              context.report({
+                message: "missing separator",
+                loc: {},
+                fix: (fixer) => fixer.insertTextAfter(prevNode, "\n"),
+              })
+            }
+          }
         }
       }
     }
