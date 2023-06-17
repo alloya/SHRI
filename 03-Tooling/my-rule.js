@@ -39,23 +39,16 @@ module.exports = {
       return [left.range[0], right.range[1]]
     }
 
-    function getNodeRange(source, node, includeComments = true) {
-      if (includeComments && source.getCommentsBefore(node)[0]) {
-        console.log('COMMENTS', source.getCommentsBefore(node)[0])
-      }
-      const range = getTextRange(
-        (includeComments && source.getCommentsBefore(node)[0]) || node,
-        node
-      )
-      return range
+    function getNodeRange(source, node) {
+      return getTextRange(source.getCommentsBefore(node)[0] || node, node)
     }
 
-    function getNodeText(source, node, includeComments = true) {
-      const text = source.getText().slice(...getNodeRange(source, node, includeComments))
-      return text
+    function getNodeText(source, node) {
+      return source.getText().slice(...getNodeRange(source, node))
     }
 
     function getImportPriority(node) {
+      if (node.type === 'VariableDeclaration') return 5;
       const value = node.source.value;
       if (value.startsWith('@')) {
         return 1
@@ -74,24 +67,20 @@ module.exports = {
 
     return {
       Program(program) {
-        const nodes = program.body.filter(el => el.type == 'ImportDeclaration');
-        let dynamicImports = program.body.filter(el => el.type == 'VariableDeclaration')
-        console.log('dynamicImports', program.body)
-        dynamicImports = dynamicImports.filter(el => el.declarations.some(decl => decl.init?.type === 'ImportExpression'));
-        console.log(dynamicImports)
+        const nodes = program.body.filter(el => el.type == 'ImportDeclaration' || (el.type == 'VariableDeclaration' && el.declarations.some(decl => decl.init && decl.init.type === 'ImportExpression')));
+
         if (nodes.length <= 1) return;
         const sortedImports = sortImports(nodes)
         const firstUnsortedNode = findUnsorted(nodes, sortedImports)
         if (firstUnsortedNode) {
-          const isFirstNode = (node) => node === nodes[0]
           context.report({
             node: firstUnsortedNode,
             message: 'Sort imports',
             fix(fixer) {
               const temp = [];
               for (const [node, replacement] of getUnsorted(nodes, sortedImports)) {
-                const range = getNodeRange(sourceCode, node, !isFirstNode(node))
-                const text = getNodeText(sourceCode, replacement, !isFirstNode(replacement))
+                const range = getNodeRange(sourceCode, node)
+                const text = getNodeText(sourceCode, replacement)
                 temp.push(
                   fixer.replaceTextRange(range, text)
                 )
@@ -104,16 +93,16 @@ module.exports = {
           const node = nodes[i]
           const prevNode = nodes[i - 1]
 
-          const nodeOrComment = sourceCode.getCommentsBefore(node)[0] ?? node
+          const nodeOrComment = sourceCode.getCommentsBefore(node)[0] || node
           const rangeBetween = [
             prevNode.range[1],
             nodeOrComment.range[0],
           ];
           const actualSeparator = text
             .slice(...rangeBetween)
-            .replace(/[^\n]/g, "") 
-            .replace("\n", "") 
-          const isSameGroup = getImportPriority(sortedImports[i-1]) === getImportPriority(sortedImports[i])
+            .replace(/[^\n]/g, "")
+            .replace("\n", "")
+          const isSameGroup = getImportPriority(sortedImports[i - 1]) === getImportPriority(sortedImports[i])
           if (isSameGroup) {
             if (actualSeparator !== "") {
               context.report({
@@ -123,16 +112,12 @@ module.exports = {
               })
             }
           }
-          else {
-            if (actualSeparator !== "\n") {
-              console.log('actualSeparator', encodeURI(actualSeparator))
-              console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
-              context.report({
-                message: "missing separator",
-                loc: {},
-                fix: (fixer) => fixer.insertTextAfter(prevNode, "\n"),
-              })
-            }
+          else if (actualSeparator !== "\n") {
+            context.report({
+              message: "missing separator",
+              loc: {},
+              fix: (fixer) => fixer.insertTextAfter(prevNode, "\n"),
+            })
           }
         }
       }
