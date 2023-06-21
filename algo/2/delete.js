@@ -2,16 +2,9 @@ const fs = require('fs')
 let fileContent = fs.readFileSync("input.txt", "utf8");
 let [counter, input] = fileContent.split('\n').map(el => el.trim());
 counter = Number(counter)
-input = input.split(' ').map(el => Number(el)).sort((a,b) => a-b);
-let result = ''
+input = input.split(' ');
 
-let current = input[1];
 let max = 0;
-
-input.forEach(number => {
-  if 
-  current = number;
-});
 
 let map = input.reduce((accumulator, currentValue) => {
   if (currentValue in accumulator) {
@@ -21,22 +14,38 @@ let map = input.reduce((accumulator, currentValue) => {
   return accumulator
 }, {})
 
-const keys = Object.keys(map).map(el=> +el);
-
-for (let i = 0; i < keys.length-1; i++) {
-  const curr = keys[i];
-  const next = keys[i+1];
-  if (Math.abs(curr - next) === 1 && map[curr]+map[next] > max) {
-    max = map[curr]+map[next]
+const keys = Object.keys(map).sort((a, b) => a - b);
+let currVal = keys[0] && map[keys[0]];
+if (keys.length > 1) {
+  for (let i = 1; i < keys.length; i++) {
+    const nextVal = map[keys[i]];
+    let localMax = currVal;
+    if (Math.abs(keys[i - 1] - keys[i]) <= 1) localMax += nextVal
+    else {
+      localMax = localMax > nextVal ? localMax : nextVal
+    }
+    max = max > localMax ? max : localMax;
+    currVal = nextVal;
   }
 }
-
-if (max == 0 && counter > 1) {
-  let keyVal = Object.entries(map).map(el => el[1]);
-  max = Math.max(...keyVal)
+else {
+  max = currVal || ''
 }
 
-result = counter > 1 ? counter - max : 0
-console.log(result)
 
+// for (const [key, value] of Object.entries(map)) {
+//   let localMax = value;
+//   let prev = map[Number(key)-1];
+//   let next = map[Number(key)+1]
+//   if (next) {
+//     localMax += next;
+//   }
+//   if (prev) {
+//     localMax = localMax > value + prev ? localMax : value + prev
+//   }
+//   max = max > localMax ? max : localMax;
+// }
+
+result = input.length > 1 ? input.length - max : 0
+console.log(result)
 fs.writeFileSync("output.txt", result.toString())
