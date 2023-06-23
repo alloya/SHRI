@@ -1,3 +1,5 @@
+import { IFilmCard } from "@/models/filmCardModel";
+
 const cinemas = [
   {
     id: "CTfrB5PGEJHBwxCNlU4uo",
@@ -30,7 +32,7 @@ const cinemas = [
     ],
   },
 ];
-const movies = [
+export const movies: IFilmCard[] = [
   {
     title: "Властелин колец: Братство Кольца",
     posterUrl: "https://i.postimg.cc/pdCLNMqX/1.webp",

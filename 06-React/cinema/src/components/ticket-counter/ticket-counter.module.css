@@ -1,0 +1,27 @@
+.counters {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.button_minus {
+  background-image: url('../../../public/minus.svg');
+}
+
+.button_plus {
+  background-image: url('../../../public/plus.svg');
+}
+
+.button {
+  height: 20px;
+  width: 20px;
+  border-radius: 4px;
+  background-color: var(--orange, #F50);
+  padding: 4px;
+  background-size: cover;
+  border-color: transparent;
+}
+
+.disabled {
+  background-color: var(--orange-disabled, #FFA375);
+}

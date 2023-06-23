@@ -1,0 +1,11 @@
+.footer {
+  height: 86px;
+  padding: 24px 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-shrink: 0;
+  color: #FFF;
+  font-size: 20px;
+  font-family: Roboto;
+}

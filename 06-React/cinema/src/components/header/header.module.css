@@ -1,0 +1,20 @@
+.header {
+  display: flex;
+  width: 100%;
+  padding: 24px 32px;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.title {
+  color: #FFF;
+  font-size: 32px;
+  font-family: Roboto;
+  font-weight: 700;
+}
+
+.cart {
+  background-image: url('../../../public/basket.svg');
+  width: 32px; 
+  height: 32px;
+}
