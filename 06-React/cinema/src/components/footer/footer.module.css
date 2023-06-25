@@ -1,5 +1,4 @@
 .footer {
-  height: 86px;
   padding: 24px 32px;
   display: flex;
   justify-content: space-between;
@@ -8,4 +7,5 @@
   color: #FFF;
   font-size: 20px;
   font-family: Roboto;
+  background-color: var(--gray-1, #333);
 }

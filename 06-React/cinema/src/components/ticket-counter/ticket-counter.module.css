@@ -20,8 +20,62 @@
   padding: 4px;
   background-size: cover;
   border-color: transparent;
+  cursor: pointer;
 }
 
 .disabled {
   background-color: var(--orange-disabled, #FFA375);
+}
+
+.delete {
+  background-image: url("../../../public/close.svg");
+  width: 16px;
+  border: 0;
+  height: 16px;
+  background-color: transparent;
+}
+
+.popup {
+  display: flex;
+  flex-direction: column;
+}
+
+.title {
+  color: var(--text-primary, #1B1F23);
+  font-size: 20px;
+  font-family: Roboto;
+  font-weight: 600;
+  line-height: 20px;
+  padding-bottom: 16px;
+}
+
+.description {
+  color: var(--text-primary, #1B1F23);
+  font-size: 16px;
+  font-family: Roboto;
+  line-height: 20px;
+  padding-bottom: 24px;
+}
+
+.action_buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.action_button {
+  padding: 16px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.action_button_yes {
+  background-color: var(--orange, #F50);
+  color: white;
+  border: 0;
+}
+
+.action_button_no {
+  background-color: white;
+  border: 1px solid var(--orange, #F50);
+  color: #F50
 }

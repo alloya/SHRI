@@ -1,0 +1,36 @@
+.container {
+  background: #fff;
+  box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.15);
+  border-radius: 8px;
+  margin: auto;
+  padding: 24px;
+  box-sizing: border-box;
+  position: relative;
+  transition: all 0.5s ease-in-out;
+  width: 430px;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.7);
+  transition: visibility 0s, opacity 0.5s;
+  display: flex;
+  z-index: 11;
+}
+
+.close {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  background-image: url("../../../public/close.svg");
+  width: 16px;
+  height: 16px;
+  padding-left: 24px;
+  border: 0;
+  background-color: transparent;
+  cursor: pointer;
+}

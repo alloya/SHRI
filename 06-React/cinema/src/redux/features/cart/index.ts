@@ -30,12 +30,17 @@ export const cartSlice = createSlice({
     incrementByAmount: (state, action: PayloadAction<number>) => {
       state.value += action.payload
     },
+    remove: (state, { payload }) => {
+      if (payload in state) {
+        delete state[payload]
+      }
+    },
     reset: () => {
       return initialState;
     }
   }
 });
-export const { increment, decrement, incrementByAmount } = cartSlice.actions;
+export const { increment, decrement, remove } = cartSlice.actions;
 
 export default cartSlice.reducer;
 export const cartActions = cartSlice.actions;

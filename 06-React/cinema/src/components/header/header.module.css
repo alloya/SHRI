@@ -4,6 +4,21 @@
   padding: 24px 32px;
   justify-content: space-between;
   align-items: center;
+  background: var(--gray-1, #333);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  align-self: flex-start;
+}
+
+.header::-webkit-scrollbar {
+  width: 5px;
+  height: 8px;
+  background-color: #2f2f37;
+}
+
+.header ::-webkit-scrollbar-track {
+  margin: 40px;
 }
 
 .title {
@@ -11,10 +26,26 @@
   font-size: 32px;
   font-family: Roboto;
   font-weight: 700;
+  margin-right: auto;
+  display: inline-block;
 }
 
 .cart {
   background-image: url('../../../public/basket.svg');
-  width: 32px; 
+  width: 32px;
   height: 32px;
+  display: inline-block;
+}
+
+.counter {
+  height: 28px;
+  width: 28px;
+  border-radius: 8px;
+  background-color: var(--orange, #F50);
+  padding: 4px;
+  margin-right: 8px;
+  color: white;
+  justify-content: center;
+  align-items: center;
+  display: flex;
 }

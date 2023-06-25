@@ -1,10 +1,25 @@
+'use client'
+import { useAppSelector } from '@/hooks/hooks';
 import s from './header.module.css';
-import Image from 'next/image';
-
+import { usePathname } from 'next/navigation';
+import Link from 'next/link';
 
 export const Header = () => {
-  return <div className={s.header}>
-    <h1 className={s.title}>Билетопоиск</h1>
-    <span className={s.cart} />
-  </div>
+  const pathName = usePathname();
+  const cart = useAppSelector(store => store.cart);
+
+  const count = Object.keys(cart).reduce((acc, curr) => {
+    return acc + cart[curr];
+  }, 0)
+
+  return (
+    <header className={s.header}>
+      {pathName != '/' ?
+        <Link href='/' className={s.title} >Билетопоиск</Link>
+        : <span className={s.title}>Билетопоиск</span>
+      }
+      {!!count && <button className={s.counter} >{count}</button>}
+      <Link href='/cart' className={s.cart} />
+    </header>
+  )
 }

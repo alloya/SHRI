@@ -35,6 +35,7 @@
 }
 
 .justify_between {
+  display: flex;
   justify-content: space-between;
 }
 
@@ -74,4 +75,33 @@
 
 .p_4 {
   padding: 24px;
+}
+
+.pt_3 {
+  padding-top: 16px;
+}
+
+.wrapper {
+  background-color: white;
+  padding: 24px;
+  border-radius: 8px;
+}
+
+.d_flex_column {
+  display: flex;
+  flex-direction: column;
+}
+
+.page {
+  background-color: #F8F8F8;
+  padding: 24px;
+  height: 100%;
+}
+
+.text_bold {
+  color: var(--text-primary, #1B1F23);
+  font-size: 20px;
+  font-family: Roboto;
+  font-weight: 600;
+  line-height: 32px;
 }

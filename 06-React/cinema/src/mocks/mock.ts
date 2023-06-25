@@ -1,4 +1,4 @@
-import { IFilmCard } from "@/models/filmCardModel";
+import { IMovie, IMovieApi } from "@/models/film.model";
 
 const cinemas = [
   {
@@ -32,7 +32,7 @@ const cinemas = [
     ],
   },
 ];
-export const movies: IFilmCard[] = [
+export const movies: IMovieApi[] = [
   {
     title: "Властелин колец: Братство Кольца",
     posterUrl: "https://i.postimg.cc/pdCLNMqX/1.webp",
