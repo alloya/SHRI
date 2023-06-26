@@ -2,11 +2,13 @@ import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
 import cardReducer from "./features/cart";
 import moviesReducer from "./features/movies";
 import { movieApi } from "./services/movieApi";
+import cinemasReducer from "./features/cinemas";
 
 const store = configureStore({
   reducer: {
     cart: cardReducer,
     movies: moviesReducer,
+    cinemas: cinemasReducer,
     [movieApi.reducerPath]: movieApi.reducer,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat([movieApi.middleware])

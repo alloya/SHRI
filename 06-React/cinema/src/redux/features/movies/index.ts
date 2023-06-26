@@ -10,14 +10,12 @@ const initialState: MovieStore = {
   movies: []
 }
 
-const initialState2: IMovieApi[] = [];
-
 export const moviesSlice = createSlice({
   name: 'movies',
   initialState,
   reducers: {
     setMoviesStore: (state, { payload }: { payload: IMovieApi[] }) => {
-      state = {...state, loaded: true, movies: [...payload]}
+      state = { ...state, loaded: true, movies: [...payload] }
       return state;
     },
     addMovieToStore: (state, { payload }: { payload: IMovieApi }) => {

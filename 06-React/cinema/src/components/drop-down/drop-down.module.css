@@ -4,3 +4,16 @@
   font-family: SF Pro Text;
   line-height: 20px;
 }
+
+.select {
+  padding: 10px 16px;
+  align-items: center;
+  align-self: stretch;
+  border-radius: 8px;
+  border: 1px solid var(--border-default, #E1E3E6);
+  color: var(--text-tertiary, #999FA6);
+}
+
+.option {
+  
+}

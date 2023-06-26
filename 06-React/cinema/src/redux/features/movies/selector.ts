@@ -1,4 +1,3 @@
-import { IMovieApi } from "@/models/film.model";
 import { RootState } from "@/redux/store";
 
 
