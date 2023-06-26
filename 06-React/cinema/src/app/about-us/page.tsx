@@ -1,8 +1,9 @@
+import classNames from "classnames";
 import st from "../../utils/styles.module.css";
 
 export default function AboutUs() {
 
-  return <section className={st.page}>
+  return <section className={classNames(st.page, st.h_100)}>
     <div className={st.wrapper}>
       <h1>О нас</h1>
       <p className={st.pt_3}>Мы — крупнейший сервис о кино в рунете. На нем вы сможете посмотреть фильмы и сериалы, купить билеты в кино, узнать рейтинги популярных видео и интересные факты, поставить фильмам оценки, написать рецензии и дополнить описание фильмов.</p>

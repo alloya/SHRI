@@ -10,7 +10,7 @@ import classNames from "classnames";
 export default function Cart() {
 
   const cart = useAppSelector(state => state.cart);
-  const movies = useAppSelector(state => state.movies);
+  const movies = useAppSelector(state => state.movies.movies);
   let products: IMovieApi[] = [];
 
   const count = Object.keys(cart).reduce((acc, curr) => {
@@ -24,7 +24,7 @@ export default function Cart() {
   })
 
   return (
-    <div className={classNames(st.wrapper, st.page, st.d_flex_column, st.justify_between)}>
+    <div className={classNames(st.wrapper, st.page, st.d_flex_column, st.justify_between, st.h_100)}>
       {products && products.map(el =>
         <FilmCard {...el} key={el.id} cart={true} />
       )}

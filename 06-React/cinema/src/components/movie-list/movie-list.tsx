@@ -9,18 +9,18 @@ import { FilmCard } from "../film-card/film-card";
 
 export const MovieList = () => {
   const dispatch = useAppDispatch();
-  const movies = useAppSelector(store => store.movies);
-  const { data, isLoading, error } = useGetMoviesQuery(undefined, { skip: movies.length !== 0 });
+  const store = useAppSelector(store => store.movies);
+  const { data, isLoading, error } = useGetMoviesQuery(undefined, { skip: store.loaded });
 
   useEffect(() => {
-    if (data && !movies.length) {
+    if (data) {
       dispatch(setMoviesStore(data))
     }
-  }, [data, dispatch, movies])
+  }, [data, dispatch, store.movies])
 
   return (
     <section className={s.content}>
-      {movies.map(el => <FilmCard {...el} key={el.id} />)}
+      {store.movies.map(el => <FilmCard {...el} key={el.id} />)}
     </section>
   )
 }

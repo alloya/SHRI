@@ -8,8 +8,6 @@ import { selectProductAmount } from "@/redux/features/cart/selector";
 import { createPortal } from 'react-dom';
 import { Popup } from '../popup/popup';
 
-const popup = document.getElementById('portal');
-
 export const TicketCounter = ({ id, cart = false }: { id: string, cart: boolean }) => {
   const count = useAppSelector(state => selectProductAmount(state, id));
   const dispatch = useAppDispatch();
@@ -61,7 +59,7 @@ export const TicketCounter = ({ id, cart = false }: { id: string, cart: boolean 
               >Нет</button>
             </div>
           </div>
-        </Popup>, popup || document.body
+        </Popup>, document.body
       )}
     </div>
   )

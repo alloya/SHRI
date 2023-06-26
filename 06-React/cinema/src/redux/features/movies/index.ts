@@ -1,24 +1,28 @@
-import { IMovie, IMovieApi } from "@/models/film.model";
-import { genres } from "@/utils/enum";
+import { IMovieApi } from "@/models/film.model";
 import { createSlice } from "@reduxjs/toolkit";
+type MovieStore = {
+  loaded: boolean,
+  movies: IMovieApi[]
+}
 
-const initialState: IMovieApi[] = [];
+const initialState: MovieStore = {
+  loaded: false,
+  movies: []
+}
+
+const initialState2: IMovieApi[] = [];
 
 export const moviesSlice = createSlice({
   name: 'movies',
   initialState,
   reducers: {
     setMoviesStore: (state, { payload }: { payload: IMovieApi[] }) => {
-      return [...state, ...payload]
+      state = {...state, loaded: true, movies: [...payload]}
+      return state;
     },
     addMovieToStore: (state, { payload }: { payload: IMovieApi }) => {
-      state.push(payload);
+      state.movies.push(payload);
     }
-    // getMovie: (state, { payload }: { payload: string }) => {
-    //   const movie = state.find(el => el.id === payload);
-    //   if (!movie) return;
-    //   return movie
-    // }
   }
 })
 

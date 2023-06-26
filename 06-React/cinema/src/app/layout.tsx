@@ -1,10 +1,12 @@
 import { StoreProvider } from '@/redux/StoreProvider'
 import './globals.css'
-import { Inter } from 'next/font/google'
 import { Header } from '@/components/header/header'
 import { Footer } from '@/components/footer/footer'
+import { roboto } from '../../public/fonts'
 
-const inter = Inter({ subsets: ['latin'] })
+// const roboto = Roboto({
+//   variable
+// });
 
 export const metadata = {
   title: 'Билетопоиск',
@@ -18,7 +20,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={roboto.className}>
         <StoreProvider>
           <Header />
           {children}
