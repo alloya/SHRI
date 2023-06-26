@@ -7,7 +7,7 @@ export const mapGenre = (genre: TGenreKeys) => {
 }
 
 export const getGenresFilter = (genre: {[key: string]: string}) => {
-  const result: IFIlter[] = [];
+  const result: IFIlter[] = [{key: '', value: null}];
   Object.keys(genre).forEach(el => {
     result.push({key: el, value: mapGenre(el)})
   })
