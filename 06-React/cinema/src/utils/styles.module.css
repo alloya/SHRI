@@ -131,6 +131,12 @@
   font-style: italic;
 }
 
+.text_medium {
+  color: var(--text-primary, #1B1F23);
+  font-size: 24px;
+  line-height: 32px;
+}
+
 .text_normal {
   color: var(--text-primary, #1B1F23);
   font-size: 20px;

@@ -11,7 +11,7 @@ import { useGetCinemasQuery } from "@/redux/services/movieApi";
 import { getCinemaFilter, getGenresFilter } from "@/utils/utils";
 import { useRouter } from "next/navigation";
 
-export const SideBar = ({search, genre, cinema}: {search: string | null, genre: string | null, cinema: string | null}) => {
+export const SideBar = ({ search, genre, cinema }: { search: string | null, genre: string | null, cinema: string | null }) => {
   const dispatch = useAppDispatch();
   const router = useRouter();
   const cinemas = useAppSelector(store => store.cinemas);
@@ -19,8 +19,8 @@ export const SideBar = ({search, genre, cinema}: {search: string | null, genre: 
 
   const filterGenres = getGenresFilter(genres);
   const filterCinemas = useMemo(() => getCinemaFilter(cinemas), [cinemas]);
-  
-  const [urlObj, setUrlObj] = useState<{[key: string]: string|null}>({genre, search, cinema});
+
+  const [urlObj, setUrlObj] = useState<{ [key: string]: string | null }>({ genre, search, cinema });
 
   useEffect(() => {
     if (data) {
@@ -32,17 +32,26 @@ export const SideBar = ({search, genre, cinema}: {search: string | null, genre: 
 
   useEffect(() => {
     if (filterQuery) {
-      router.push(`?${Object.keys(filterQuery).map(el => filterQuery[el]&&`${el}=${filterQuery[el]}`).filter(Boolean).join('&')}`)
+      router.push(`?${Object.keys(filterQuery).map(el => filterQuery[el] && `${el}=${filterQuery[el]}`).filter(Boolean).join('&')}`)
     }
   }, [filterQuery, router])
 
   return <div className={s.wrapper}>
-    <Input value={search} callback={(value) => setUrlObj({...urlObj, search: value})}/>
-    <Dropdown value={genre} text="Жанр" placeholder="Выберите жанр"
-      list={filterGenres} callback={(value) => setUrlObj({...urlObj, genre: value})}
+    <Input
+      value={search}
+      callback={(value) => setUrlObj({ ...urlObj, search: value })}
     />
-    <Dropdown value={cinema} text="Кинотеатр" placeholder="Выберите кинотеатр"
-      list={filterCinemas} callback={(value) => setUrlObj({...urlObj, cinema: value})}
+    <Dropdown
+      text="Жанр"
+      placeholder={filterGenres.find(el => el.key === genre)?.value || "Выберите жанр"}
+      list={filterGenres}
+      callback={(value) => setUrlObj({ ...urlObj, genre: value })}
+    />
+    <Dropdown
+      text="Кинотеатр"
+      placeholder={cinemas.find(el => el.id === cinema)?.name || "Выберите кинотеатр"}
+      list={filterCinemas}
+      callback={(value) => setUrlObj({ ...urlObj, cinema: value })}
     />
   </div>
 }

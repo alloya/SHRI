@@ -1,0 +1,15 @@
+.arrow_up {
+  background-image: url("../../../public/arrow-square-up.svg");
+  height: 20px;
+  width: 20px;
+  top: 28px;
+  right: 24px;
+}
+
+.arrow_down {
+  transform: rotate(180deg);
+}
+
+.padding {
+  padding-right: 30px;
+}

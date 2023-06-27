@@ -29,12 +29,11 @@ export default function Page() {
 
   useEffect(() => {
     if (cinemaMovies.isLoading || isLoading) return;
-    const filter = (cinemaMovies.data || store.movies)
+    const filter = (params.toString().length>0&&cinemaMovies.data || store.movies)
       .filter(el => genre === null || el.genre === genre)
       .filter(el => search === null || el.title.toLowerCase().includes(search.toLowerCase()))
-
     setMovies(filter)
-  }, [search, genre, cinemaMovies, store.movies, isLoading])
+  }, [search, genre, cinemaMovies, store.movies, isLoading, params])
 
   useEffect(() => {
     if (data) {

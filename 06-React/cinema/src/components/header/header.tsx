@@ -14,10 +14,7 @@ export const Header = () => {
 
   return (
     <header className={s.header}>
-      {pathName != '/' ?
-        <Link href='/' className={s.title} >Билетопоиск</Link>
-        : <span className={s.title}>Билетопоиск</span>
-      }
+      <Link href='/' className={s.title} >Билетопоиск</Link>
       {!!count && <button className={s.counter} >{count}</button>}
       <Link href='/cart' className={s.cart} />
     </header>
