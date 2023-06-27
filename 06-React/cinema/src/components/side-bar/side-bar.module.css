@@ -1,0 +1,19 @@
+.wrapper {
+  background-color: #FFF;
+  border-radius: 8px;
+  height: 100vh;
+  position: sticky;
+  top: 0px;
+  padding: 24px;
+  width: 360px;
+  /* flex-shrink: 0; */
+  gap: 16px;
+}
+
+.sticky {
+  position: sticky;
+  top: 120px;
+  gap: 16px;
+  display: inline-flex;
+  flex-direction: column;
+}

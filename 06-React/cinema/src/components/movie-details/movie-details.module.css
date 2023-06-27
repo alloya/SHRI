@@ -1,0 +1,26 @@
+.wrapper {
+  display: flex;
+  width: 100%;
+  padding: 24px;
+  margin-bottom: auto;
+  background-color: white;
+  border-radius: 8px;
+  margin-bottom: 24px;
+}
+
+.film_poster {
+  border-radius: 8px;
+  width: 400px;
+  height: 500px;
+  flex-shrink: 0;
+  object-fit: cover;
+  display: block;
+  overflow: hidden;
+  margin-right: 32px;
+}
+
+.comments {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}

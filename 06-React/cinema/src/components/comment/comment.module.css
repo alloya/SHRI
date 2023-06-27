@@ -1,0 +1,21 @@
+.text {
+  padding-left: 32px;
+  width: 100%;
+}
+
+.avatar {
+  height: 100px;
+  width: 100px;
+  background-color: #E0E0E0;
+  border-radius: 8px;
+  display: flex;
+}
+
+.no_image {
+  background-repeat: no-repeat;
+  object-position: center;
+  background-image: url("../../../public/photo.svg");
+  margin: auto;
+  width: 32px;
+  height: 32px;
+}
