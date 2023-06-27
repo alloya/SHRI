@@ -4,12 +4,12 @@ import { useAppDispatch, useAppSelector, useDebounce } from "@/hooks/hooks";
 import { setMoviesStore } from "@/redux/features/movies";
 import { useGetMoviesQuery } from "@/redux/services/movieApi";
 import { useEffect, useMemo, useState } from "react";
-import { useRouter } from "next/router";
 import { IMovieApi } from "@/models/film.model";
 import { useSearchParams } from "next/navigation";
 import { SideBar } from "@/components/side-bar/side-bar";
 import { MovieList } from "@/components/movie-list/movie-list";
 import s from "./page.module.css";
+import st from "../../utils/styles.module.css"
 
 export default function Page() {
 
@@ -29,6 +29,7 @@ export default function Page() {
 
   useEffect(() => {
     if (cinemaMovies.isLoading || isLoading) return;
+    debugger
     const filter = (params.toString().length>0&&cinemaMovies.data || store.movies)
       .filter(el => genre === null || el.genre === genre)
       .filter(el => search === null || el.title.toLowerCase().includes(search.toLowerCase()))
@@ -43,7 +44,7 @@ export default function Page() {
 
   return <div className={s.main}>
     <SideBar {...filters} />
-    {isLoading && <>Загружаем фильмы...</>}
+    {isLoading && <div className={st.h_100}>Загружаем фильмы...</div>}
     <MovieList movies={movies} />
   </div>
 }

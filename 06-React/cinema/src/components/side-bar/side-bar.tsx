@@ -37,21 +37,24 @@ export const SideBar = ({ search, genre, cinema }: { search: string | null, genr
   }, [filterQuery, router])
 
   return <div className={s.wrapper}>
-    <Input
-      value={search}
-      callback={(value) => setUrlObj({ ...urlObj, search: value })}
-    />
-    <Dropdown
-      text="Жанр"
-      placeholder={filterGenres.find(el => el.key === genre)?.value || "Выберите жанр"}
-      list={filterGenres}
-      callback={(value) => setUrlObj({ ...urlObj, genre: value })}
-    />
-    <Dropdown
-      text="Кинотеатр"
-      placeholder={cinemas.find(el => el.id === cinema)?.name || "Выберите кинотеатр"}
-      list={filterCinemas}
-      callback={(value) => setUrlObj({ ...urlObj, cinema: value })}
-    />
+    <div className={s.sticky}>
+      <Input
+        value={search}
+        callback={(value) => setUrlObj({ ...urlObj, search: value })}
+      />
+      <Dropdown
+        text="Жанр"
+        placeholder={filterGenres.find(el => el.key === genre)?.value || "Выберите жанр"}
+        list={filterGenres}
+        callback={(value) => setUrlObj({ ...urlObj, genre: value })}
+      />
+      <Dropdown
+        text="Кинотеатр"
+        placeholder={cinemas.find(el => el.id === cinema)?.name || "Выберите кинотеатр"}
+        list={filterCinemas}
+        callback={(value) => setUrlObj({ ...urlObj, cinema: value })}
+      />
+    </div>
+
   </div>
 }
