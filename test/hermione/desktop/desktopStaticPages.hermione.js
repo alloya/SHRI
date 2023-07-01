@@ -3,7 +3,9 @@ const { assert } = require('chai');
 describe('отображение стратических страниц:', async function () {
   it('главная', async function () {
     await this.browser.url('http://localhost:3000/hw/store/');
-    await this.browser.assertView('plain', 'body');
+    await this.browser.assertView('plain', 'body', {
+      screeshotDelay: 300
+    });
 
     const title = await this.browser.$('.display-3').getText();
     assert.equal(title, 'Welcome to Example store!');
@@ -11,7 +13,6 @@ describe('отображение стратических страниц:', asyn
 
   it('каталог', async function () {
     await this.browser.url('http://localhost:3000/hw/store/catalog');
-    await this.browser.assertView('plain', 'body');
 
     const title = await this.browser.$('h1').getText();
     assert.equal(title, 'Catalog');

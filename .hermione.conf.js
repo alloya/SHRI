@@ -38,7 +38,7 @@ module.exports = {
       },
       windowSize: {
         width: 575,
-        height: 900
+        height: 1400
       }
     },
   },

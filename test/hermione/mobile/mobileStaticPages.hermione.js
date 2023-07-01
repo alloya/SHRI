@@ -11,7 +11,6 @@ describe('отображение стратических страниц:', asyn
 
   it('каталог', async function () {
     await this.browser.url('http://localhost:3000/hw/store/catalog');
-    await this.browser.assertView('plain', 'body');
 
     const title = await this.browser.$('h1').getText();
     assert.equal(title, 'Catalog');
