@@ -66,12 +66,19 @@ describe('Тесты хедера', () => {
     const nav = await screen.findByRole('navigation')
     const burgerButton = await within(nav).getByRole('button');
     const dropdown = await container.getElementsByClassName('Application-Menu')[0];
+    const links = await within(dropdown as HTMLElement).findAllByRole('link');
     expect(dropdown).toHaveClass('collapse');
 
-    fireEvent.click(burgerButton);
-
+    await fireEvent.click(burgerButton);
     expect(dropdown).not.toHaveClass('collapse');
-    fireEvent.click(burgerButton);
+    await fireEvent.click(burgerButton);
+    expect(dropdown).toHaveClass('collapse');
+
+
+    await fireEvent.click(burgerButton);
+    expect(dropdown).not.toHaveClass('collapse');
+    console.log(links[0])
+    await fireEvent.click(links[0]);
     expect(dropdown).toHaveClass('collapse');
   })
 });

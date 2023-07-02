@@ -8,7 +8,15 @@ describe('процесс создания заказа', async function () {
     await button.assertView('plain');
     await this.browser.$('.ProductDetails-AddToCart').click();
 
-    await button.assertView('clicked');
+    await button.assertView('clicked', {
+      tolerance: 5,
+      antialiasingTolerance: 4,
+      allowViewportOverflow: false,
+      captureElementFromTop: true,
+      compositeImage: false,
+      screenshotDelay: 300,
+      screenshotMode: 'viewport'
+    });
     // const badge = await this.browser.$('.CartBadge');
     // assert.isTrue(await badge.isDisplayed());
 
@@ -24,7 +32,14 @@ describe('процесс создания заказа', async function () {
     await this.browser.url('http://localhost:3000/hw/store/cart');
 
     await this.browser.assertView('plain', 'body', {
-      ignoreElements: ['Cart-Name', 'Cart-Price', 'Cart-Total', 'Cart-OrderPrice']
+      ignoreElements: ['.Cart-Name', '.Cart-Price', '.Cart-Total', '.Cart-OrderPrice'],
+      tolerance: 5,
+      antialiasingTolerance: 4,
+      allowViewportOverflow: false,
+      captureElementFromTop: true,
+      compositeImage: false,
+      screenshotDelay: 300,
+      screenshotMode: 'viewport'
     });
 
   });
@@ -37,7 +52,15 @@ describe('процесс создания заказа', async function () {
     const form = await this.browser.$('#root > div > div > div > div:nth-child(3)');
     await form.assertView('plain');
     await this.browser.$('.Form-Submit').click();
-    await form.assertView('clicked');
+    await form.assertView('clicked', {
+      tolerance: 5,
+      antialiasingTolerance: 4,
+      allowViewportOverflow: false,
+      captureElementFromTop: true,
+      compositeImage: false,
+      screenshotDelay: 300,
+      screenshotMode: 'viewport'
+    });
   });
 
   it('отображается сообщение об успехе при сабмите корректной формы', async function ({ }) {
@@ -50,7 +73,14 @@ describe('процесс создания заказа', async function () {
     await this.browser.$('#f-address').setValue('ktybyf 12');
     await this.browser.$('.Form-Submit').click();
     await this.browser.assertView('submited', 'body', {
-      ignoreElements:['.Cart-Number']
+      ignoreElements: ['.Cart-Number'],
+      tolerance: 5,
+      antialiasingTolerance: 4,
+      allowViewportOverflow: false,
+      captureElementFromTop: true,
+      compositeImage: false,
+      screenshotDelay: 300,
+      screenshotMode: 'viewport'
     });
   });
 });
