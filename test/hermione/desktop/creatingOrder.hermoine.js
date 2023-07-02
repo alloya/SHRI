@@ -83,4 +83,22 @@ describe('процесс создания заказа', async function () {
       screenshotMode: 'viewport'
     });
   });
+
+  it('страница товара отображается правильно', async function ({ }) {
+    await this.browser.url('http://localhost:3000/hw/store/catalog/0');
+    await this.browser.$('.ProductDetails-AddToCart').click();
+    await this.browser.url('http://localhost:3000/hw/store/cart');
+
+    await this.browser.assertView('plain', 'body', {
+      ignoreElements: ['.Cart-Name', '.Cart-Price', '.Cart-Total', '.Cart-OrderPrice'],
+      tolerance: 5,
+      antialiasingTolerance: 4,
+      allowViewportOverflow: false,
+      captureElementFromTop: true,
+      compositeImage: false,
+      screenshotDelay: 300,
+      screenshotMode: 'viewport'
+    });
+
+  });
 });
