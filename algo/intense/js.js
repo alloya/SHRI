@@ -1,49 +1,31 @@
-const findMin = (arr, start) => {
+const findPlace = (arr, start, val) => {
   let min = arr[start];
   let ind = start;
-  for (let i = start; i < arr.length; i++) {
-    if (min > arr[i]) {
-      min = arr[i];
-      ind = i;
+  for (let i = ind-1; i >= 0; i--) {
+    let curr = arr[i]
+    if (curr > min) {
+      swap(arr, ind, i)
+      ind = i
     }
   }
-  return {min, ind}
 }
 
-const sortSelect = (arr) => {
+const swap = (arr, min, max) => {
+  let temp = arr[min];
+  arr[min] = arr[max];
+  arr[max] = temp
+}
+
+const sortInsert = (arr) => {
   let len = arr.length;
-  let iteration = 0;
 
-  while (iteration < len ) {
-    let min = findMin(arr, iteration)
-
-    let temp = arr[iteration];
-    arr[iteration] = min.min;
-    arr[min.ind] = temp
-
-    iteration++
+  for (let i=1; i< len; i++) {
+    if (arr[i] < arr[i-1]) {
+      findPlace(arr, i);
+    }
   }
-  
 
   return arr
 }
 
-console.log(sortSelect([3, 4, 2, 5, 1, 7, 2]))
-
-
-
-const sort = (arr) => {
-  let len = arr.length;
-
-  while (len > 0) {
-    for (let i = 0; i < len; i++) {
-      if (arr[i] > arr[i + 1]) {
-        let temp = arr[i + 1];
-        arr[i + 1] = arr[i];
-        arr[i] = temp;
-      }
-    }
-    len--
-  }
-  return arr
-}
+console.log(sortInsert([3, 4, 1, 5, 1, 7, 2]))
