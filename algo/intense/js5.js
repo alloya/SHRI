@@ -20,11 +20,9 @@ const checkMatch = (first, second) => {
 
 const checkValid = (str) => {
   let arr = str.split('');
-  arr = arr.filter(el => Object.hasOwn(obj, el))
-  if (arr.length % 2 !== 0 || !isOpens(arr[0])) return false
   let res = [];
-
   for (let i = 0; i < arr.length; i++) {
+    if (!Object.hasOwn(obj, arr[i])) continue
     if (isOpens(arr[i])) res.push(arr[i]);
     else {
       let last = res.pop();
