@@ -1,29 +1,43 @@
-const countFigure = (char) => {
-  return char === '{' ? 1 : char === '}' ? -1 : 0
+const isOpens = (char) => {
+  if (char === '{' || char == '(' || char === '[') return true;
+  return false;
 }
 
-const countSquare = (char) => {
-  return char === '[' ? 1 : char === ']' ? -1 : 0
-}
+const obj = { '(': 0, ')': 0, '{': 0, '}': 0, '[': 0, ']': 0 }
 
-const countRound = (char) => {
-  return char === '(' ? 1 : char === ')' ? -1 : 0
+const checkMatch = (first, second) => {
+  switch (first) {
+    case '(':
+      return second === ')'
+    case '{':
+      return second === '}'
+    case '[':
+      return second === ']'
+    default:
+      break;
+  }
 }
 
 const checkValid = (str) => {
-  const arr = str.split('');
-
-  let round = 0;
-  let square = 0;
-  let figure = 0;
+  let arr = str.split('');
+  arr = arr.filter(el => Object.hasOwn(obj, el))
+  if (arr.length % 2 !== 0 || !isOpens(arr[0])) return false
+  let res = [];
 
   for (let i = 0; i < arr.length; i++) {
-    figure += countFigure(arr[i])
-    round += countRound(arr[i])
-    square += countSquare(arr[i])
-    if (figure < 0 || square < 0 || round < 0) return false;
+    if (isOpens(arr[i])) res.push(arr[i]);
+    else {
+      let last = res.pop();
+      let match = checkMatch(last, arr[i]);
+      if (!match) return false
+    }
+    
   }
-  return true
+
+  return res.length == 0
+
 }
 
-console.log(checkValid('(({}))'))
+console.log(checkValid(`([(]))`))
+console.log(checkValid(`(([()]))`))
+console.log(checkValid(`(){}[]([]){()}`))
