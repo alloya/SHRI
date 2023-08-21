@@ -7,6 +7,9 @@ const findPlace = (arr, start, val) => {
       swap(arr, ind, i)
       ind = i
     }
+    else {
+      break
+    }
   }
 }
 
